@@ -1,5 +1,7 @@
 """Terminal interface for boter-kaas-en-eieren."""
 
+import random
+
 from boter_kaas_eieren.models.MiniMax import MiniMax
 
 from .game import Game
@@ -18,7 +20,7 @@ def render(game: Game) -> str:
 
 def main() -> None:
     """Run an interactive two-player game."""
-    game = Game()
+    game = Game(random.choice(["X", "O"]))
     print("Boter, kaas en eieren")
     print("Choose a square by entering a number from 1 to 9.\n")
 

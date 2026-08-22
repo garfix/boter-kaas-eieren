@@ -8,12 +8,12 @@ class Game:
     """A 3x3 game where players alternate between X and O."""
 
     board: list[str]
-    current_player: str = "X"
+    current_player: str
 
-    def __init__(self) -> None:
+    def __init__(self, first_player: str = "X") -> None:
         """Initialize a new game."""
         self.board = [" "] * 9
-        self.current_player = random.choice(["X", "O"])
+        self.current_player = first_player
 
     def move(self, position: int) -> None:
         """Place the current player's mark at a zero-based position."""
