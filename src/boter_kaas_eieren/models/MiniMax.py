@@ -1,5 +1,6 @@
 from boter_kaas_eieren.game import Game
 
+# This AI does not always takes an opportunity to win.
 
 class MiniMax:
     game: Game
@@ -23,7 +24,9 @@ class MiniMax:
     def minimax(self, depth, is_maximizing):
         winner = self.game.winner()
         if winner == self.game.current_player:
-            return 1
+            # return 1 - every win is okay
+            # return 9 - depth: prefer faster wins
+            return 9 - depth
         elif winner and winner != self.game.current_player:
             return -1
         elif self.game.is_draw():
