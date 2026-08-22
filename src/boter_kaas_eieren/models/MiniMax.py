@@ -10,18 +10,23 @@ class MiniMax:
 
     def best_move(self):
         best_score = float("-inf")
+        # the least guaranteed score of the maximizing player (the AI)
+        alpha = float("-inf")
+        # the highest guaranteed score of the minimizing player (that's us)
+        beta = float("inf")
         move = None
         for i in range(9):
             if self.game.board[i] == " ":
                 self.game.board[i] = self.game.current_player
-                score = self.minimax(0, False)
+                score = self.minimax(0, False, alpha, beta)
                 self.game.board[i] = " "
                 if score > best_score:
                     best_score = score
                     move = i
+                alpha = max(alpha, best_score)
         return move
 
-    def minimax(self, depth, is_maximizing):
+    def minimax(self, depth, is_maximizing, alpha=float("-inf"), beta=float("inf")):
         winner = self.game.winner()
         if winner == self.game.current_player:
             # return 1 - every win is okay
@@ -37,9 +42,12 @@ class MiniMax:
             for i in range(9):
                 if self.game.board[i] == " ":
                     self.game.board[i] = self.game.current_player
-                    score = self.minimax(depth + 1, False)
+                    score = self.minimax(depth + 1, False, alpha, beta)
                     self.game.board[i] = " "
                     best_score = max(score, best_score)
+                    alpha = max(alpha, best_score)
+                    if beta <= alpha:
+                        break
             return best_score
         else:
             best_score = float("inf")
@@ -47,7 +55,10 @@ class MiniMax:
                 if self.game.board[i] == " ":
                     opponent = "O" if self.game.current_player == "X" else "X"
                     self.game.board[i] = opponent
-                    score = self.minimax(depth + 1, True)
+                    score = self.minimax(depth + 1, True, alpha, beta)
                     self.game.board[i] = " "
                     best_score = min(score, best_score)
+                    beta = min(beta, best_score)
+                    if beta <= alpha:
+                        break
             return best_score
