@@ -2,6 +2,7 @@
 
 import random
 
+from boter_kaas_eieren.models.QLearning import QLearning
 from boter_kaas_eieren.models.MiniMax import MiniMax
 
 from .game import Game
@@ -24,7 +25,8 @@ def main() -> None:
     print("Boter, kaas en eieren")
     print("Choose a square by entering a number from 1 to 9.\n")
 
-    policy = MiniMax(game)
+    # policy = MiniMax(game)
+    policy = QLearning(game)
 
     while not game.winner() and not game.is_draw():
         print(render(game))
