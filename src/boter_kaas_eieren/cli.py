@@ -24,12 +24,12 @@ def main() -> None:
     print("Boter, kaas en eieren")
     print("Choose a square by entering a number from 1 to 9.\n")
 
-    model = MiniMax(game)
+    policy = MiniMax(game)
 
     while not game.winner() and not game.is_draw():
         print(render(game))
         if game.current_player == "X":
-            move = model.best_move()
+            move = policy.best_move()
             print(f"AI (X) chooses square {move + 1}")
             game.move(move)
         else:
