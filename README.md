@@ -1,6 +1,6 @@
 # Boter, kaas en eieren
 
-A small Python command-line game and a clean starting point for experimenting with CLI games.
+These are just some experiments with problem solving / machine learning. The code is mainly writting by AI (Copilot auto, Claude Sonnet 5)
 
 ## Quick start
 
