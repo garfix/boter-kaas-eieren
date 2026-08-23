@@ -80,6 +80,9 @@ class QLearning:
 		reward: float,
 		next_state: tuple[tuple[str, ...], str] | None,
 	) -> None:
+
+        # Q(s,a) ← Q(s,a) + α[r + γ * max​Q(s′,a′) − Q(s,a)]
+		
 		values = self.q_table.setdefault(state, {})
 		current_value = values.get(action, 0.0)
 		if next_state is None:
@@ -88,7 +91,7 @@ class QLearning:
 			next_values = self.q_table.get(next_state, {})
 			target = -self.discount_factor * max(
 				next_values.values(), default=0.0
-			)
+			)		
 		values[action] = current_value + self.learning_rate * (
 			target - current_value
 		)

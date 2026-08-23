@@ -23,3 +23,5 @@ The game engine lives in `src/boter_kaas_eieren/game.py`, separate from terminal
 ## Models
 
 * [Minimax](https://nl.wikipedia.org/wiki/Minimax) with [Alpha-beta pruning](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
+* [QLearning](https://en.wikipedia.org/wiki/Q-learning)
+
