@@ -9,17 +9,25 @@ class QLearning:
     def __init__(
         self,
         game: Game,
-        episodes: int = 10_000,
+        # more episodes means wider coverage of all states/actions, but takes longer
+        # 100_000 give reasonable results as well, and is faster to train
+        episodes: int = 1_000_000,
         learning_rate: float = 0.1,
         discount_factor: float = 0.9,
-        exploration_rate: float = 0.2,
+        # which part of the time should the AI explore random moves instead of exploiting its learned Q-values?
+        # best to start with a high exploration rate and gradually decay it to a low value
+        # if exploration rate needs to be fixed, set it to 1.0
+        exploration_rate_start: float = 0.99,
+        exploration_rate_end: float = 0.1,
         seed: int | None = None,
     ) -> None:
         self.game = game
         self.episodes = episodes
         self.learning_rate = learning_rate
         self.discount_factor = discount_factor
-        self.exploration_rate = exploration_rate
+        self.exploration_rate_start = exploration_rate_start
+        self.exploration_rate_end = exploration_rate_end
+        self.exploration_rate = exploration_rate_start  # current value, updated during train()
         self.q_table: dict[tuple[tuple[str, ...], str], dict[int, float]] = {}
         self._random = random.Random(seed)
         self._trained = False
@@ -35,13 +43,17 @@ class QLearning:
         state = (tuple(self.game.board), self.game.current_player)
         legal_moves = self._legal_moves(self.game.board)
         values = self.q_table.get(state, {})
-        return max(legal_moves, key=lambda move: values.get(move, 0.0))
+        m =  max(legal_moves, key=lambda move: values.get(move, 0.0))
+        print(self.q_table.get(state, {}))
+        return m
 
     def train(self) -> None:
         """Learn action values by playing self-play training episodes."""
-        for _ in range(self.episodes):
+        for episode in range(self.episodes):
+            self.exploration_rate = self._epsilon_for_episode(episode)
+
             board = [" "] * 9
-            player = "X"
+            player = "X" if episode % 2 == 0 else "O"
 
             while True:
                 state = (tuple(board), player)
@@ -61,6 +73,15 @@ class QLearning:
                 player = next_player
 
         self._trained = True
+
+    def _epsilon_for_episode(self, episode: int) -> float:
+        """Linearly decay epsilon from start to end over the course of training."""
+        if self.episodes <= 1:
+            return self.exploration_rate_end
+        progress = episode / (self.episodes - 1)
+        return self.exploration_rate_start + progress * (
+            self.exploration_rate_end - self.exploration_rate_start
+        )
 
     def _training_move(
         self,
