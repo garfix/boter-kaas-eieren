@@ -25,6 +25,7 @@ The game engine lives in `src/boter_kaas_eieren/game.py`, separate from terminal
 * Heuristics
 * [Minimax](https://nl.wikipedia.org/wiki/Minimax) with [Alpha-beta pruning](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
 * [Q-learning](https://en.wikipedia.org/wiki/Q-learning)
+* [Monte Carlo Tree Search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)
 
 ## Heuristics
 

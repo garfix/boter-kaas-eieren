@@ -2,6 +2,7 @@
 
 import random
 
+from boter_kaas_eieren.models.MonteCarloTreeSearch import MonteCarloTreeSearch
 from boter_kaas_eieren.models.QLearning import QLearning
 from boter_kaas_eieren.models.MiniMax import MiniMax
 
@@ -25,13 +26,14 @@ def main() -> None:
     print("Boter, kaas en eieren")
     print("Choose a square by entering a number from 1 to 9.\n")
 
-    # policy = MiniMax(game)
-    policy = QLearning(game)
+    # model = MiniMax(game)
+    # model = QLearning(game)
+    model = MonteCarloTreeSearch(game)
 
     while not game.winner() and not game.is_draw():
         print(render(game))
         if game.current_player == "X":
-            move = policy.best_move()
+            move = model.best_move()
             print(f"AI (X) chooses square {move + 1}")
             game.move(move)
         else:
