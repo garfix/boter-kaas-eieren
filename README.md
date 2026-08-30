@@ -1,4 +1,4 @@
-# Boter, kaas en eieren
+# Boter, kaas en eieren (Tic-tac-toe)
 
 These are just some experiments with problem solving / machine learning, written in Python. The code is mainly writting by AI (Copilot auto, Claude Sonnet 5)
 
@@ -58,3 +58,15 @@ In the learning process the agent plays a large number of games against itself (
 The agent does not only play random moves, actually. Whether it does or not depends on its **exploration_rate**. At the beginning it tries to touch as many states as it can, to have cover much of the search space. Later on, more and more, it just picks the Q value that has been found before. For tic-tac-toe the exploration_rate can be 1 (fully random), but the algorithm for decreasing it is left in, as this code is also meant to illustrate how this might work in real-life RL tasks, where exploring the full search space is impossible and when it is more useful to have accurate information about a smaller part, then to have vage information about a larger part.
 
 Using randomness to explore a search space is never efficient, but the upside is that it can be used without any domain knowledge.
+
+## Monte Carlo Tree Search
+
+Monte Carlo Tree Search (MCTS) explores a limited amount of future game states in a smart way. 
+
+MCTS is suitable for large game spaces where it is not possible to simulate all future states. It just tries the most promising 1000 states or so, then picks the most promising child node.
+
+Of all child states, it **selects** the most promising node first. It **expands** this node into a child node. For this child node node it randomly **simulates** moves until the end of the game, and keeps track of the wins. It does this **iterations** times, and **propagates back** the results from child nodes to parent nodes. then picks the child node (state) with most visits.
+
+Random moves to simuate the rest of the game are great for a simple game like tic-tac-toe, but in a more complex game it is necessary to use heuristics to avoid obvious bad moves.
+
+Deciding with node to explore is based on the Upper Confidence Bound, a balance between **exploration** and **exploitation**. Without exploration, MCTS would just greedily pick the first move that looked okay and never try alternatives. Without exploitation, it would just wander randomly forever.
